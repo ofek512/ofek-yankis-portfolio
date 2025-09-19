@@ -1,0 +1,61 @@
+:root {
+    /* --- Green Light Theme --- */
+    --primary: #1a4314; /* Deep Forest Green for headings */
+    --secondary: #38a169; /* Vibrant Emerald for links, buttons, highlights */
+    --accent: #48bb78; /* Lighter Emerald for hovers */
+    --dark: #1A202C; /* Kept for the dark code box background */
+    --text: #2d3748; /* Dark Slate for body text */
+    --border: #d8e2dc; /* Light minty-gray for borders */
+    --body-bg: #f5fbf7; /* Very light mint background */
+
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.1);
+    --shadow-btn: 0 4px 12px rgba(56, 161, 105, 0.3); /* Green shadow */
+
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+
+    --card-bg: #ffffff;
+    --header-bg: rgba(245, 251, 247, 0.95); /* Semi-transparent mint background */
+    --footer-bg: var(--primary); /* Deep Forest Green footer */
+    --footer-text: white;
+    --code-box-bg: var(--dark);
+    --code-box-text: #e2e8f0;
+    --project-img-bg: #e8f5e9; /* Light green for project image placeholders */
+
+    --transition-standard: all 0.3s ease;
+
+    --font-xs: 0.8rem;
+    --font-sm: 0.95rem;
+    --font-base: 1rem;
+    --font-md: 1.1rem;
+    --font-lg: 1.25rem;
+    --font-xl: 1.5rem;
+    --font-2xl: 2rem;
+    --font-3xl: 2.5rem;
+    --font-4xl: 3rem;
+}
+
+[data-theme="dark"] {
+    /* --- Green Dark Theme --- */
+    --primary: #e2e8f0; /* Light gray for headings */
+    --secondary: #68d391; /* Vibrant Mint for links and buttons */
+    --accent: #9ae6b4; /* Lighter Mint for hovers */
+    --text: #cbd5e0; /* Light gray for body text */
+    --border: #3a4f45; /* Dark green-gray border */
+    --body-bg: #1a2a22; /* Very dark forest green background */
+
+    --card-bg: #20362d; /* Darker card background */
+    --header-bg: rgba(26, 42, 34, 0.95); /* Semi-transparent dark green */
+    --footer-bg: #20362d;
+    --footer-text: white;
+    --code-box-bg: #101622;
+    --code-box-text: #e2e8f0;
+    --project-img-bg: #2a4d3e;
+
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.3);
+    --shadow-btn: 0 4px 12px rgba(104, 211, 145, 0.3); /* Minty shadow */
+}

@@ -6,21 +6,21 @@ const projects = [
         title: "AVL Tree Implementation",
         description: "Designed and developed an AVL tree data structure in C++, implementing various tree operations such as insertion, deletion, and balancing. The project aimed to enhance understanding of self-balancing trees and their applications.",
         tags: ["C++", "Data structure", "Algorithms", "Design"],
-        github: "https://github.com/ofek512/ds_wet2",
+        github: "https://github.com/ofek512/AVL_tree",
         live: null
     },
     {
         title: "Smah Shell",
         description: "Developed a lightweight shell for Linux that supports basic commands, piping, and redirection. The project involved low-level programming in C and provided an opportunity to work with operating system concepts and kernel interactions.",
         tags: ["Linux", "Kernel", "C", "Threads", "Hardware"],
-        github: "https://github.com/ofek512/OS_HW3",
+        github: "https://github.com/ofek512/OS_HW1",
         live: null
     },
     {
         title: "Portfolio Website",
         description: "Created a personal portfolio website using React to showcase projects, skills, and experience. The site features a responsive design, smooth animations, and easy navigation to provide an engaging user experience.",
         tags: ["React", "Javascript"],
-        github: "https://github.com/ofek512/portfolio_website",
+        github: "https://github.com/ofek512/ofek-yankis-portfolio",
         live: null
     }
 ];

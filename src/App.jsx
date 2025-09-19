@@ -1,30 +1,55 @@
-// The main fix is ensuring both React and useState are imported correctly
 import React, { useState } from 'react';
 
-// I'll make the import path more explicit just in case
-import Sidebar from './components/layout/Sidebar.jsx'; 
-import ScrollToTop from './components/layout/ScrollToTop.jsx';
-import Hero from './components/sections/Hero.jsx';
-import Experience from './components/sections/Experience.jsx';
-import Skills from './components/sections/Skills.jsx';
-import Projects from './components/sections/Projects.jsx';
-import Education from './components/sections/Education.jsx';
-import Languages from './components/sections/Languages.jsx';
-import Contact from './components/sections/Contact.jsx';
+// --- Your component imports ---
+import Sidebar from './components/layout/Sidebar';
+import Hero from './components/sections/Hero';
+import Experience from './components/sections/Experience';
+import Projects from './components/sections/Projects';
+import Skills from './components/sections/Skills';
+import Education from './components/sections/Education';
+import Languages from './components/sections/Languages';
+import Contact from './components/sections/Contact';
+import ScrollToTop from './components/layout/ScrollToTop';
 
-import './styles/variables.css';
+// --- Your CSS imports ---
 import './styles/global.css';
+import './styles/variables.css';
 
 function App() {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
+  // State for the DESKTOP sidebar (controlled by the arrow button)
+  const [isDesktopSidebarClosed, setDesktopSidebarClosed] = useState(false);
+  
+  // State for the MOBILE sidebar (controlled by the hamburger button)
+  const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
+  // Function for the DESKTOP arrow button
+  const toggleDesktopSidebar = () => {
+    setDesktopSidebarClosed(!isDesktopSidebarClosed);
   };
 
+  // Function for the MOBILE hamburger button
+  const toggleMobileSidebar = () => {
+    setMobileSidebarOpen(!isMobileSidebarOpen);
+  };
+
+  // Combine class names dynamically for both desktop and mobile states
+  const layoutClasses = [
+    'app-layout',
+    isDesktopSidebarClosed ? 'sidebar-closed' : '', // For desktop collapse
+    isMobileSidebarOpen ? 'sidebar-visible' : ''    // For mobile slide-in
+  ].join(' ').trim();
+
   return (
-    <div className={`app-layout ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-      <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+    <div className={layoutClasses}>
+      
+      {/* --- MOBILE-ONLY ELEMENTS --- */}
+      <button className="hamburger-menu" onClick={toggleMobileSidebar} aria-label="Open menu">
+        <i className="fas fa-bars" aria-hidden="true"></i>
+      </button>
+      <div className="mobile-overlay" onClick={toggleMobileSidebar}></div>
+      
+      {/* --- YOUR COMPONENTS (with props restored for desktop) --- */}
+      <Sidebar toggleSidebar={toggleDesktopSidebar} />
       
       <div className="main-content">
         <main>

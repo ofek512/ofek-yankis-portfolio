@@ -52,7 +52,6 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                     </div>
                 </div>
             </div>
-
             {/* --- ADD THIS BUTTON --- */}
             {/* This is the new button to toggle the sidebar */}
             <button onClick={toggleSidebar} className="sidebar-toggle" aria-label="Toggle sidebar">

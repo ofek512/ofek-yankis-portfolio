@@ -87,8 +87,8 @@ html {
 }
 
 .sidebar {
-    width: 260px; /* --- THINNER SIDEBAR --- */
-    position: fixed; /* Changed to fixed for better layering */
+    width: 300px;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
@@ -97,8 +97,8 @@ html {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-    transition: transform 0.3s ease-in-out;
-    z-index: 100; /* Ensure it's on top */
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    z-index: 1000;
 }
 
 .sidebar-content {
@@ -124,7 +124,7 @@ html {
 }
 
 .sidebar-logo {
-    font-size: 1.75rem;
+    font-size: 2rem;
     color: var(--primary);
 }
 .sidebar-logo span {
@@ -132,7 +132,7 @@ html {
 }
 
 .sidebar-subtitle {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--text);
 }
 
@@ -145,19 +145,22 @@ html {
 }
 
 .sidebar-nav a {
-    display: block;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.5rem;
-    border-radius: var(--radius-sm);
-    color: var(--text);
+    font-size: 1.05rem;
     font-weight: 500;
+    text-align: center;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-md);
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text);
     transition: all 0.2s ease;
 }
 
 .sidebar-nav a:hover {
-    background-color: var(--project-img-bg);
-    color: var(--secondary);
-    transform: translateX(5px);
+    background-color: var(--secondary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .sidebar-footer {
@@ -185,11 +188,11 @@ html {
 .main-content {
     flex: 1;
     overflow-y: auto;
-    margin-left: 260px; /* --- MATCHES THINNER SIDEBAR --- */
+    margin-left: 300px;
     transition: margin-left 0.3s ease-in-out;
 }
 
-/* --- COLLAPSED STATE --- */
+/* --- DESKTOP COLLAPSED STATE --- */
 .app-layout.sidebar-closed .sidebar {
     transform: translateX(-100%);
 }
@@ -198,7 +201,7 @@ html {
     margin-left: 0;
 }
 
-/* --- TOGGLE BUTTON STYLE --- */
+/* --- DESKTOP TOGGLE BUTTON --- */
 .sidebar-toggle {
     position: absolute;
     top: 50%;
@@ -215,43 +218,50 @@ html {
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow-md);
-    transition: background-color 0.2s ease;
+    transition: all 0.2s ease;
 }
 
 .sidebar-toggle:hover {
     background-color: var(--accent);
 }
 
-/* Responsive: On smaller screens, stack the layout */
-@media (max-width: 992px) {
-    .app-layout {
-        flex-direction: column;
-    }
-    .sidebar {
-        position: static;
-        width: 100%;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-    }
-    .sidebar-nav {
-        display: none; /* Hiding nav on mobile for simplicity, can be replaced with a hamburger menu */
-    }
-    .sidebar-profile-img {
-        width: 80px;
-        height: 80px;
-    }
-    .profile-section {
-        margin-bottom: 1rem;
-    }
-    .sidebar-content {
-        padding: 1rem;
-    }
-    .sidebar-footer {
-        display: none; /* Hiding footer on mobile for simplicity */
-    }
+/* --- MOBILE HAMBURGER & OVERLAY --- */
+.hamburger-menu {
+    display: none; /* Hidden on desktop */
+    visibility: hidden;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1100;
+    background-color: var(--card-bg);
+    color: var(--primary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s ease;
 }
 
+.hamburger-menu:hover {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
 /* 2. APPLY THE NEW FONT TO THE BODY: Changed from Inter to Manrope */
 body {
@@ -290,21 +300,26 @@ h1 span {
 
 h2 {
     font-size: var(--font-3xl);
+    color: var(--primary);
     position: relative;
-    display: inline-block;
-    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+}
+
+h2::before {
+    counter-increment: section;
+    content: "0" counter(section) ".";
+    font-size: var(--font-lg);
+    font-weight: 600;
+    color: var(--secondary);
+    position: relative;
+    top: 2px;
 }
 
 h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background-color: var(--secondary);
-    border-radius: 4px;
+    display: none;
 }
 
 h3 {
@@ -327,7 +342,7 @@ a:hover {
 }
 
 .container {
-    max-width: 1140px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 0 1.5rem;
     width: 100%;
@@ -338,7 +353,7 @@ section {
 }
 
 .section-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 3rem;
 }
 
@@ -350,7 +365,7 @@ section {
 .section-description {
     font-size: var(--font-md);
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0;
     color: var(--text);
 }
 
@@ -393,6 +408,7 @@ img {
 
 .btn-primary:hover {
     background-color: var(--accent);
+    color: var(--primary);
     box-shadow: var(--shadow-btn);
 }
 
@@ -417,6 +433,7 @@ img {
 
 .btn-cv:hover {
     background-color: var(--secondary);
+    color: white;
     border-color: var(--secondary);
     box-shadow: var(--shadow-btn);
 }
@@ -455,7 +472,6 @@ img {
     border-radius: 20px;
     font-size: var(--font-xs);
     font-weight: 500;
-    display: inline-block;
 }
 
 .social-icon {
@@ -514,14 +530,23 @@ img {
 
 .project-card {
     background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
     border-radius: var(--radius-md);
-    overflow: hidden;
-    box-shadow: var(--shadow-md);
-    transition: var(--transition-standard);
-    transform: translateZ(0);
-    height: 100%;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--secondary);
 }
 
 .project-content {
@@ -584,7 +609,10 @@ header nav {
     color: var(--secondary);
 }
 
-/* --- New Hero Section Styles --- */
+.hero-section {
+    padding: 5rem 0;
+}
+
 .hero-section .container {
     display: flex;
     flex-direction: column;
@@ -593,8 +621,18 @@ header nav {
     padding-bottom: 4rem;
 }
 
+.hero-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    min-height: 0;
+    padding: 0;
+}
+
 .hero-intro {
-    text-align: center;
+    flex: 2;
+    text-align: left;
 }
 
 .hero-intro h1 {
@@ -606,12 +644,33 @@ header nav {
 .hero-intro .subtitle {
     font-size: var(--font-lg);
     max-width: 700px;
-    margin: 0 auto 2rem;
+    margin: 0 0 2rem;
     color: var(--text);
 }
 
 .hero-intro .cta-buttons {
+    justify-content: flex-start;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.profile-img {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border: 5px solid var(--card-bg);
+}
+
+[data-theme="dark"] .profile-img {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
 .featured-project-wrapper {
@@ -700,27 +759,6 @@ header nav {
     box-shadow: var(--shadow-btn);
 }
 
-@media (max-width: 768px) {
-    .featured-project-card {
-        flex-direction: column;
-        align-items: flex-start;
-        text-align: left;
-    }
-    .project-links {
-       align-self: flex-start;
-    }
-}
-
-.profile-img {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center top;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    border: 4px solid var(--card-bg);
-}
-
 .subtitle {
     font-size: var(--font-lg);
     color: var(--text);
@@ -737,91 +775,154 @@ header nav {
     gap: 1rem;
 }
 
-.experience-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
+.experience-timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-left: 2rem;
 }
 
-.experience-grid:not(:last-child) {
-    margin-bottom: 2rem;
+.experience-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 15px;
+    bottom: 15px;
+    width: 3px;
+    background-color: var(--border);
+    border-radius: 3px;
 }
 
-.experience-header {
+.timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -2rem;
+    top: 10px;
+    transform: translateX(-45%);
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background-color: var(--body-bg);
+    border: 4px solid var(--secondary);
+    box-shadow: 0 0 0 4px var(--body-bg);
+}
+
+.timeline-content {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.timeline-content .experience-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.experience-title {
-    font-size: var(--font-xl);
-    font-weight: 600;
-    color: var(--primary);
-}
-
-.experience-company {
-    font-size: var(--font-md);
-    font-weight: 500;
-    color: var(--secondary);
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
-.experience-location {
-    font-size: var(--font-sm);
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.timeline-content .experience-title {
+    font-size: var(--font-xl);
+    font-weight: 600;
+    margin: 0;
 }
 
-.experience-date {
+.timeline-content .experience-date {
     font-size: var(--font-sm);
+    color: var(--text);
     font-weight: 500;
-    color: var(--text);
+    background-color: var(--project-img-bg);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+
+.timeline-content .experience-meta {
     display: flex;
+    gap: 1rem;
     align-items: center;
-    gap: 0.5rem;
-    white-space: nowrap;
+    margin-bottom: 1.5rem;
+    font-size: var(--font-md);
 }
 
-.experience-description ul {
-    list-style-type: none;
+.timeline-content .experience-company {
+    color: var(--secondary);
+    font-weight: 500;
 }
 
-.experience-description li {
-    margin-bottom: 0.75rem;
+.timeline-content .experience-location {
+    font-size: var(--font-sm);
+    color: var(--text);
+}
+
+.timeline-content .experience-description {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.timeline-content .experience-description li {
     position: relative;
-    padding-left: 1.5rem;
+    padding-left: 1.75rem;
+    margin-bottom: 0.5rem;
 }
 
-.experience-description li::before {
-    content: '→';
+.timeline-content .experience-description li::before {
+    content: '›';
     position: absolute;
-    left: 0;
+    left: 0.5rem;
+    font-weight: 600;
+    font-size: 1.2rem;
     color: var(--secondary);
 }
 
-.skills-container {
-    margin-top: 2rem;
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
 }
 
-.skills-group {
-    margin-bottom: 2rem;
+.skill-card {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
 }
 
-.skills-group h3 {
+.skill-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--secondary);
+}
+
+.skill-category-title {
     font-size: var(--font-lg);
+    font-weight: 600;
     color: var(--primary);
-    margin-bottom: 1rem;
-    display: inline-block;
+    margin-bottom: 1.5rem;
     position: relative;
+    padding-bottom: 0.5rem;
 }
 
-.skills-group h3::after {
+.skill-category-title::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: 0;
     left: 0;
     width: 40px;
     height: 3px;
@@ -829,48 +930,28 @@ header nav {
     border-radius: 3px;
 }
 
-.skills-list {
+.skill-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 1rem;
 }
 
-.skills-progress-container {
-    margin-top: 3rem;
-}
-
-.skill-progress:not(:last-child) {
-    margin-bottom: 1.5rem;
-}
-
-.skill-header {
+.skill-item {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
+    align-items: center;
+    gap: 1rem;
+    font-size: var(--font-base);
+    color: var(--text);
 }
 
-.skill-name {
-    font-weight: 500;
-    color: var(--primary);
-}
-
-.skill-percent {
+.skill-item i {
+    font-size: 1.2rem;
     color: var(--secondary);
-    font-weight: 500;
-}
-
-.progress-bar {
-    height: 8px;
-    background-color: var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background-color: var(--secondary);
-    border-radius: 4px;
-    transition: width 1.5s ease;
+    width: 20px;
+    text-align: center;
 }
 
 .projects-grid {
@@ -880,26 +961,51 @@ header nav {
 }
 
 .project-img {
-    height: 200px;
-    background-color: var(--project-img-bg);
+    display: none;
+}
+
+.project-header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--primary);
-    font-size: 4rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
 }
 
 .project-title {
     font-size: var(--font-lg);
     font-weight: 600;
     color: var(--primary);
-    margin-bottom: 0.75rem;
+    margin: 0;
+}
+
+.project-links {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.3rem;
+}
+
+.project-links a {
+    color: var(--text);
+    transition: color 0.3s ease;
+}
+
+.project-links a:hover {
+    color: var(--secondary);
+}
+
+.project-card .project-title,
+.project-card .project-description {
+    color: inherit;
+}
+
+.project-card:hover .project-links i {
+    color: var(--secondary);
 }
 
 .project-description {
     font-size: var(--font-sm);
-    margin-bottom: 1.5rem;
     color: var(--text);
+    margin-bottom: 1.5rem;
     flex-grow: 1;
 }
 
@@ -907,7 +1013,7 @@ header nav {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin: 0;
 }
 
 .education-container {
@@ -1039,79 +1145,6 @@ header nav {
     color: var(--secondary);
 }
 
-.copyright {
-    font-size: var(--font-sm);
-    opacity: 0.8;
-}
-
-.code-box {
-    background-color: var(--code-box-bg);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    margin-top: 2rem;
-    font-family: var(--font-family);
-    color: var(--code-box-text);
-    position: relative;
-    overflow: hidden;
-}
-
-.code-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.code-dots {
-    display: flex;
-    gap: 0.5rem;
-    margin-right: 1rem;
-}
-
-.code-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-}
-
-.code-dot.red {
-    background-color: #e53e3e;
-}
-
-.code-dot.yellow {
-    background-color: #ecc94b;
-}
-
-.code-dot.green {
-    background-color: #48bb78;
-}
-
-.code-title {
-    font-size: var(--font-sm);
-    opacity: 0.7;
-}
-
-.code-line {
-    display: flex;
-    margin-bottom: 0.5rem;
-}
-
-.code-prompt {
-    color: #4299e1; /* Blue prompt from original design looks good here */
-}
-
-.code-command {
-    color: #f7fafc;
-}
-
-.code-output {
-    color: #a0aec0;
-    padding-left: 1.5rem;
-}
-
-.code-highlight {
-    color: var(--secondary); /* Use our new secondary green for highlights */
-}
-
 .scroll-top {
     position: fixed;
     bottom: 30px;
@@ -1146,21 +1179,10 @@ header nav {
     perspective: 1000px;
 }
 
-.delay-1 {
-    animation-delay: 0.1s;
-}
-
-.delay-2 {
-    animation-delay: 0.2s;
-}
-
-.delay-3 {
-    animation-delay: 0.3s;
-}
-
-.delay-4 {
-    animation-delay: 0.4s;
-}
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
 
 .typewriter h1 {
     overflow: hidden;
@@ -1171,14 +1193,8 @@ header nav {
 }
 
 @keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes typing {
@@ -1196,894 +1212,99 @@ header nav {
     100% { transform: rotate(360deg); }
 }
 
-@media (max-width: 1024px) {
-    :root {
-        --font-4xl: 2.75rem;
-        --font-3xl: 2.25rem;
+/* --- FINAL & ONLY RESPONSIVE BLOCK --- */
+@media (max-width: 992px) {
+    /* --- MOBILE SIDEBAR LOGIC --- */
+    .hamburger-menu {
+        display: block;
+        visibility: visible;
+    }
+    .sidebar-toggle {
+        display: none !important;
+    }
+    .sidebar {
+        position: fixed;
+        width: 300px;
+        height: 100vh;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+        border-right: 1px solid var(--border);
+    }
+    .main-content {
+        margin-left: 0 !important;
+    }
+    .app-layout.sidebar-visible .sidebar {
+        transform: translateX(0);
+        box-shadow: var(--shadow-lg);
+    }
+    .app-layout.sidebar-visible .mobile-overlay {
+        display: block;
+        opacity: 1;
     }
 
-    .container {
-        max-width: 90%;
-    }
-
-    .hero {
-        padding-top: 8rem;
-        gap: 2.5rem;
-    }
-
-    .profile-img {
-        width: 260px;
-        height: 260px;
-    }
-
-    .projects-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
-}
-
-@media (max-width: 896px) {
-    .projects-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    /* --- OTHER MOBILE LAYOUT TWEAKS --- */
+    .hero-main { flex-direction: column; text-align: center; }
+    .hero-intro { text-align: center; }
+    .hero-intro .cta-buttons { justify-content: center; }
+    .hero-image { margin-top: 2rem; }
+    .profile-img { width: 220px; height: 220px; }
+    .hero-section { padding: 4rem 0; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .container { max-width: 90%; }
 }
 
 @media (max-width: 768px) {
-    :root {
-        --font-4xl: 2.5rem;
-        --font-3xl: 2rem;
-        --font-2xl: 1.75rem;
-        --font-xl: 1.35rem;
-        --font-lg: 1.15rem;
-    }
-
-    section {
-        padding: 4rem 0;
-    }
-
-    h2::after {
-        width: 60px;
-        height: 3px;
-    }
-
-    .section-description {
-        font-size: var(--font-base);
-    }
-
-    .nav-links {
-        position: fixed;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background-color: var(--card-bg);
-        flex-direction: column;
-        align-items: center;
-        padding: 1.5rem 0;
-        box-shadow: var(--shadow-md);
-        transform: translateY(-100%);
-        transition: all 0.3s ease;
-        opacity: 0;
-        visibility: hidden;
-        z-index: 999;
-    }
-
-    .nav-links.active {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .nav-links li {
-        margin: 0.75rem 0;
-    }
-
-    .nav-links a {
-        font-size: var(--font-base);
-        padding: 0.5rem 0;
-    }
-
-    .hero {
-        flex-direction: column-reverse;
-        padding-top: 7rem;
-        text-align: center;
-        gap: 2rem;
-    }
-
-    .profile-img {
-        width: 220px;
-        height: 220px;
-    }
-
-    .cta-buttons {
-        justify-content: center;
-    }
-
-    .experience-header {
-        flex-direction: column;
-    }
-
-    .experience-date {
-        margin-top: 0.5rem;
-    }
-
-    .projects-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .contact-container {
-        grid-template-columns: 1fr;
-    }
-
-    .fade-in {
-        animation-duration: 0.4s;
-    }
-
-    .scroll-top {
-        bottom: 20px;
-        right: 20px;
-        width: 45px;
-        height: 45px;
-    }
+    :root { --font-4xl: 2.5rem; --font-3xl: 2rem; --font-2xl: 1.75rem; --font-xl: 1.35rem; --font-lg: 1.15rem; }
+    section { padding: 4rem 0; }
+    .section-description { font-size: var(--font-base); }
+    .experience-header { flex-direction: column; }
+    .experience-date { margin-top: 0.5rem; }
+    .contact-container { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .featured-project-card { flex-direction: column; align-items: flex-start; text-align: left; }
+    .project-links { align-self: flex-start; }
+    .scroll-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
 }
 
 @media (max-width: 576px) {
-    :root {
-        --font-4xl: 2.25rem;
-        --font-3xl: 1.85rem;
-        --font-2xl: 1.5rem;
-        --font-xl: 1.25rem;
-    }
-
-    .container {
-        padding: 0 1.25rem;
-    }
-
-    section {
-        padding: 3.5rem 0;
-    }
-
-    .hero {
-        padding-top: 6rem;
-    }
-
-    .subtitle {
-        font-size: var(--font-base);
-    }
-
-    .profile-img {
-        width: 180px;
-        height: 180px;
-        border-width: 3px;
-    }
-
-    .cta-buttons {
-        flex-direction: column;
-        gap: 0.75rem;
-        width: 100%;
-    }
-
-    .cta-buttons .btn {
-        width: 100%;
-    }
-
-    .btn {
-        padding: 0.7rem 1.25rem;
-        font-size: 0.95rem;
-    }
-
-    .experience-card,
-    .education-card,
-    .language-card,
-    .project-content,
-    .contact-info,
-    .contact-availability {
-        padding: 1.5rem;
-    }
-
-    .skills-list {
-        gap: 0.75rem;
-    }
-
-    .skill-tag {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.85rem;
-        min-height: 32px;
-    }
-
-    .language-container {
-        flex-direction: column;
-        gap: 1.25rem;
-    }
-
-    .code-box {
-        padding: 1.25rem;
-        font-size: 0.85rem;
-    }
-
-    .social-links {
-        gap: 1rem;
-    }
-
-    .social-icon {
-        width: 40px;
-        height: 40px;
-    }
-
-    .footer {
-        padding: 2.5rem 0;
-    }
-
-    .theme-toggle {
-        width: 35px;
-        height: 35px;
-        min-width: 35px;
-    }
+    :root { --font-4xl: 2.25rem; --font-3xl: 1.85rem; --font-2xl: 1.5rem; --font-xl: 1.25rem; }
+    section { padding: 3rem 0; }
+    .container { padding: 0 1.25rem; }
+    .cta-buttons { flex-direction: column; gap: 0.75rem; width: 100%; }
+    .cta-buttons .btn { width: 100%; }
+    h1 { font-size: var(--font-2xl); }
+    h2 { font-size: var(--font-xl); }
+    .experience-timeline { padding-left: 1.5rem; }
+    .timeline-dot { left: -1.5rem; }
+    .timeline-content { padding: 1.5rem; }
 }
 
 @media (max-width: 480px) {
-    :root {
-        --font-4xl: 2rem;
-        --font-3xl: 1.75rem;
-        --font-2xl: 1.4rem;
-        --font-xl: 1.2rem;
-    }
-
-    .container {
-        padding: 0 1rem;
-    }
-
-    section {
-        padding: 3rem 0;
-    }
-
-    .section-header {
-        margin-bottom: 2rem;
-    }
-
-    .code-dots .code-dot {
-        width: 10px;
-        height: 10px;
-    }
-
-    .profile-img {
-        width: 160px;
-        height: 160px;
-    }
-
-    .experience-card,
-    .education-card,
-    .language-card,
-    .project-content,
-    .contact-info,
-    .contact-availability {
-        padding: 1.25rem;
-    }
-
-    .contact-icon {
-        width: 40px;
-        height: 40px;
-    }
-
-    .scroll-top {
-        width: 40px;
-        height: 40px;
-    }
+    :root { --font-4xl: 2rem; --font-3xl: 1.75rem; --font-2xl: 1.4rem; --font-xl: 1.2rem; }
+    .container { padding: 0 1rem; }
+    section { padding: 3rem 0; }
+    .section-header { margin-bottom: 2rem; }
 }
 
 @media (max-width: 375px) {
-    .logo {
-        font-size: 1.35rem;
-    }
-
-    .profile-img {
-        width: 140px;
-        height: 140px;
-    }
-
-    .social-icon {
-        width: 36px;
-        height: 36px;
-    }
-
-    .theme-toggle {
-        width: 31px;
-        height: 31px;
-        min-width: 31px;
-    }
-}
-
-@media (min-width: 769px) {
-    .nav-links {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateY(0) !important;
-        position: static;
-        padding: 0;
-        box-shadow: none;
-        width: auto;
-        flex-direction: row;
-        background-color: transparent;
-    }
+    .logo { font-size: 1.35rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    .fade-in,
-    .delay-1,
-    .delay-2,
-    .delay-3,
-    .delay-4,
-    .typewriter h1 {
-        animation: none !important;
-        opacity: 1 !important;
-        transform: none !important;
-    }
-
-    *, *::before, *::after {
-        transition-duration: 0.001s !important;
-    }
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: 0.001s !important; }
+    .fade-in, .typewriter h1 { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 
 @media print {
-    html, body {
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        background: white !important;
-        color: black !important;
-        font-size: 12pt;
-    }
-
-    header,
-    footer,
-    .scroll-top,
-    .cta-buttons,
-    .theme-toggle {
-        display: none !important;
-    }
-
-    .experience-card,
-    .project-card,
-    .education-card,
-    .language-card,
-    .contact-info,
-    .contact-availability {
-        box-shadow: none !important;
-        border: 1px solid #ddd !important;
-        break-inside: avoid;
-    }
-
-    .container {
-        max-width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
-    section {
-        padding: 10px 0 !important;
-        page-break-inside: avoid;
-    }
-
-    h1, h2, h3 {
-        page-break-after: avoid;
-    }
-
-    img {
-        max-height: 200px;
-    }
-
-    a {
-        text-decoration: underline;
-        color: #000 !important;
-    }
-
-    a::after {
-        content: " (" attr(href) ")";
-        font-size: 0.9em;
-        word-wrap: break-word;
-    }
-}
-
-.hero-main {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 3rem;
-    min-height: 60vh; /* Ensures it has some height */
-    padding: 2rem 0;
-}
-
-/* This forces the intro text to align to the left */
-.hero-intro {
-    flex: 2; /* Gives the text more space */
-    text-align: left;
-}
-
-/* This forces the buttons to align to the left */
-.hero-intro .cta-buttons {
-    justify-content: flex-start;
-}
-
-/* Container for the image */
-.hero-image {
-    flex: 1; /* Gives the image its own space */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Overrides for the profile image to make sure it looks right here */
-.profile-img {
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 5px solid var(--card-bg);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-[data-theme="dark"] .profile-img {
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
-
-/* Stacks the layout on smaller screens */
-@media (max-width: 992px) {
-    .hero-main {
-        flex-direction: column;
-        text-align: center;
-    }
-    .hero-intro {
-        text-align: center;
-    }
-    .hero-intro .cta-buttons {
-        justify-content: center;
-    }
-    .hero-image {
-        margin-top: 2rem;
-    }
-    .profile-img {
-        width: 220px;
-        height: 220px;
-    }
-}
-
-.hero-main {
-    min-height: 0;  /* This removes the large vertical space */
-    padding: 0;     /* This removes extra internal padding */
-}
-
-/* This adjusts the overall padding of the hero section for a cleaner look */
-.hero-section {
-    padding: 5rem 0; /* You can change this value to fine-tune the spacing */
-}
-
-/* This ensures it still looks good on smaller screens */
-@media (max-width: 992px) {
-    .hero-section {
-        padding: 4rem 0;
-    }
-}
-
-.sidebar {
-    width: 300px; /* Increased from 260px */
-}
-
-/* 2. Push the main content over to match the new sidebar width */
-.main-content {
-    margin-left: 300px; /* Increased from 260px */
-}
-
-/* 3. Make the main content container wider */
-.container {
-    max-width: 1280px; /* Increased from 1140px */
-}
-
-.sidebar-logo {
-    font-size: 2rem; /* Was 1.75rem */
-}
-
-/* 2. Make the subtitle underneath more readable */
-.sidebar-subtitle {
-    font-size: 1rem; /* Was 0.9rem */
-}
-
-/* 3. Style the navigation links to be bigger and feel more like buttons */
-.sidebar-nav a {
-    font-size: 1.05rem; /* Increase link font size */
-    font-weight: 500;
-    text-align: center;
-    padding-top: 0.8rem;
-    padding-bottom: 0.8rem;
-    border-radius: var(--radius-md); /* Give them slightly more rounded corners */
-}
-
-/* 4. Create a more impactful hover effect */
-.sidebar-nav a:hover {
-    background-color: var(--secondary); /* Use your main green accent color */
-    color: white;                     /* Make the text white on hover */
-    transform: translateY(-2px);      /* Add a subtle lift effect */
-    box-shadow: var(--shadow-md);     /* Add a soft shadow */
-}
-
-/* 5. Slightly increase the copyright font size */
-.copyright {
-    font-size: 0.9rem;
-}
-
-
-/* --- ADD THIS TO THE END OF YOUR CSS FOR THE TIMELINE STYLE --- */
-
-/* Main container for the timeline */
-.experience-timeline {
-    position: relative;
-    max-width: 800px;
-    margin: 0 auto;
-    padding-left: 2rem;
-}
-
-/* The vertical line of the timeline */
-.experience-timeline::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 15px;
-    bottom: 15px;
-    width: 3px;
-    background-color: var(--border);
-    border-radius: 3px;
-}
-
-/* Each item (dot + card) on the timeline */
-.timeline-item {
-    position: relative;
-    margin-bottom: 3rem;
-}
-
-/* The dot on the timeline */
-.timeline-dot {
-    position: absolute;
-    left: -2rem; /* Position it on the timeline line */
-    top: 10px;
-    transform: translateX(-45%);
-    width: 21px;
-    height: 21px;
-    border-radius: 50%;
-    background-color: var(--body-bg);
-    border: 4px solid var(--secondary);
-    box-shadow: 0 0 0 4px var(--body-bg);
-}
-
-/* The content card for each job */
-.timeline-content {
-    background-color: var(--card-bg);
-    padding: 2rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
-}
-
-.timeline-content:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-}
-
-/* We're reusing your existing experience classes, but with new context */
-.timeline-content .experience-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.timeline-content .experience-title {
-    font-size: var(--font-xl);
-    font-weight: 600;
-    margin: 0;
-}
-
-.timeline-content .experience-date {
-    font-size: var(--font-sm);
-    color: var(--text);
-    font-weight: 500;
-    background-color: var(--project-img-bg);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-}
-
-.timeline-content .experience-meta {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    font-size: var(--font-md);
-}
-
-.timeline-content .experience-company {
-    color: var(--secondary);
-    font-weight: 500;
-}
-
-.timeline-content .experience-location {
-    font-size: var(--font-sm);
-    color: var(--text);
-}
-
-.timeline-content .experience-description {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.timeline-content .experience-description li {
-    position: relative;
-    padding-left: 1.75rem;
-    margin-bottom: 0.5rem;
-}
-
-.timeline-content .experience-description li::before {
-    content: '›';
-    position: absolute;
-    left: 0.5rem;
-    font-weight: 600;
-    font-size: 1.2rem;
-    color: var(--secondary);
-}
-
-/* Responsive adjustments for mobile */
-@media (max-width: 576px) {
-    .experience-timeline {
-        padding-left: 1.5rem;
-    }
-    .timeline-dot {
-        left: -1.5rem;
-    }
-    .timeline-content {
-        padding: 1.5rem;
-    }
-}
-
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Creates a 2-column grid */
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-/* The individual cards for each skill category */
-.skill-card {
-    background-color: var(--card-bg);
-    padding: 2rem;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
-    transition: all 0.3s ease;
-}
-
-.skill-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--secondary);
-}
-
-/* Title for each category (e.g., "Programming Languages") */
-.skill-category-title {
-    font-size: var(--font-lg);
-    font-weight: 600;
-    color: var(--primary);
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-bottom: 0.5rem;
-}
-
-/* The underline for the category title */
-.skill-category-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 3px;
-    background-color: var(--secondary);
-    border-radius: 3px;
-}
-
-/* The list of skills within a card */
-.skill-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-/* Each individual skill item */
-.skill-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-size: var(--font-base);
-    color: var(--text);
-}
-
-.skill-item i {
-    font-size: 1.2rem;
-    color: var(--secondary);
-    width: 20px; /* Aligns icons neatly */
-    text-align: center;
-}
-
-/* Responsive: stack to a single column on smaller screens */
-@media (max-width: 768px) {
-    .skills-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* This removes the old green icon area */
-.project-img {
-    display: none;
-}
-
-/* Redefine the project card for a cleaner look */
-.project-card {
-    background-color: var(--card-bg);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Ensures cards in the same row are the same height */
-    transition: all 0.3s ease;
-}
-
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--secondary);
-}
-
-/* Header for title and links */
-.project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.project-title {
-    font-size: var(--font-lg);
-    font-weight: 600;
-    color: var(--primary);
-    margin: 0;
-}
-
-/* Container for the GitHub/Live Demo icons */
-.project-links {
-    display: flex;
-    gap: 1rem;
-    font-size: 1.3rem;
-}
-
-.project-links a {
-    color: var(--text);
-    transition: color 0.3s ease;
-}
-
-.project-links a:hover {
-    color: var(--secondary);
-}
-
-/* Make the description fill the available space */
-.project-description {
-    font-size: var(--font-sm);
-    color: var(--text);
-    margin-bottom: 1.5rem;
-    flex-grow: 1; /* This is key for equal height cards */
-}
-
-/* Container for the tech tags at the bottom */
-.project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 0; /* Remove any default margins */
-}
-
-/* Style for the individual tech tags */
-.project-tag {
-    background-color: var(--project-img-bg);
-    color: var(--secondary);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: var(--font-xs);
-    font-weight: 500;
-}
-
-.project-card {
-    display: flex; /* This is important for flex properties to work on an <a> tag */
-    cursor: pointer; /* Show a pointer on hover */
-    color: inherit; /* Inherit text color, don't use default link blue */
-    text-decoration: none; /* Remove underline from the link */
-}
-
-/* Ensure the title and description text color doesn't change on its own */
-.project-card .project-title,
-.project-card .project-description {
-    color: inherit;
-}
-
-/* Style the GitHub icon in the corner to look like the old link */
-.project-card .project-links i {
-    font-size: 1.3rem;
-    color: var(--text);
-    transition: color 0.3s ease;
-}
-
-/* Change the icon color on hover for a nice effect */
-.project-card:hover .project-links i {
-    color: var(--secondary);
-}
-
-.section-header {
-    text-align: left; /* Changed from 'center' */
-    margin-bottom: 3rem;
-}
-
-/* New style for the H2 title */
-h2 {
-    font-size: var(--font-3xl);
-    color: var(--primary);
-    position: relative;
-    display: flex; /* Use flexbox for alignment */
-    align-items: center;
-    gap: 1rem; /* Space between number and text */
-    margin: 0; /* Remove default margins */
-}
-
-/* This pseudo-element creates the section number (e.g., "01.") */
-h2::before {
-    counter-increment: section;
-    content: "0" counter(section) ".";
-    font-size: var(--font-lg);
-    font-weight: 600;
-    color: var(--secondary);
-    position: relative;
-    top: 2px; /* Fine-tune vertical alignment */
-}
-
-/* REMOVE the old underline style */
-h2::after {
-    display: none; /* This hides the old underline */
-}
-
-.btn-primary:hover {
-    background-color: var(--accent);
-    color: var(--primary); /* ADD THIS LINE: Sets text to a dark color on hover */
-    box-shadow: var(--shadow-btn);
-}
-
-/* --- And also find and replace this rule --- */
-.btn-cv:hover {
-    background-color: var(--secondary);
-    color: white; /* UPDATE THIS LINE: Ensures text stays white */
-    border-color: var(--secondary);
-    box-shadow: var(--shadow-btn);
-}
-
-/* 
-   Your .btn-outline:hover rule is already correct, as it explicitly 
-   sets the color to white. No changes are needed there.
-*/
-.btn-outline:hover {
-    background-color: var(--secondary);
-    color: white; /* This is correct */
-    border-color: var(--secondary);
-    box-shadow: var(--shadow-btn);
+    html, body { width: 100%; margin: 0; padding: 0; background: white !important; color: black !important; font-size: 12pt; }
+    header, footer, .scroll-top, .cta-buttons, .theme-toggle { display: none !important; }
+    .experience-card, .project-card, .education-card, .language-card, .contact-info, .contact-availability { box-shadow: none !important; border: 1px solid #ddd !important; break-inside: avoid; }
+    .container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+    section { padding: 10px 0 !important; page-break-inside: avoid; }
+    h1, h2, h3 { page-break-after: avoid; }
+    img { max-height: 200px; }
+    a { text-decoration: underline; color: #000 !important; }
+    a::after { content: " (" attr(href) ")"; font-size: 0.9em; word-wrap: break-word; }
 }

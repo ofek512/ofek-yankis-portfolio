@@ -35,7 +35,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                         <a href="https://www.linkedin.com/in/ofek-jankis-a44450223/" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="LinkedIn Profile">
                             <i className="fab fa-linkedin-in" aria-hidden="true"></i>
                         </a>
-                        <a href="mailto:yankhoury9@gmail.com" className="social-icon" aria-label="Email me">
+                        <a href="mailto:ofek5202@gmail.com" className="social-icon" aria-label="Email me">
                             <i className="fas fa-envelope" aria-hidden="true"></i>
                         </a>
                     </div>
